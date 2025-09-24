@@ -73,13 +73,15 @@ class Mood(Base):
     description = Column(Text, nullable=True)
     mood_score = Column(Float, nullable=False)
     anxiety_score = Column(Float, nullable=False)
-    user_id = Column(SA_UUID(as_uuid=True), ForeignKey("user.id", ondelete="CASCADE"), nullable=False)
+    user_id = Column(
+        SA_UUID(as_uuid=True), ForeignKey("user.id", ondelete="CASCADE"), nullable=False
+    )
 
 
 class Chat(Base):
     id = Column(UUID(as_uuid=True), primary_key=True, unique=True, nullable=False)
 
-    __tablename__ = 'chat'
+    __tablename__ = "chat"
 
     fk_user_id = Column(UUID(as_uuid=True), nullable=False)
 
@@ -87,11 +89,13 @@ class Chat(Base):
     session_name = Column(String, nullable=True)
     session_tag = Column(String, nullable=True)
 
-    llm_model = Column(String, default='core', nullable=False)
+    llm_model = Column(String, default="core", nullable=False)
 
     def __repr__(self):
-        return (f"<Chat(id={self.id},  fk_user_id={self.fk_user_id}, "
-                f"started_at={self.started_at}, session_name={self.session_name}, session_tag={self.session_tag})>")
+        return (
+            f"<Chat(id={self.id},  fk_user_id={self.fk_user_id}, "
+            f"started_at={self.started_at}, session_name={self.session_name}, session_tag={self.session_tag})>"
+        )
 
 
 Base.metadata.create_all(engine)

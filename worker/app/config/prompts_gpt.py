@@ -315,5 +315,3 @@ sys_q_type_0_gpt = """
     ###END OF SYSTEM PROMPT###
 
 """
-
-

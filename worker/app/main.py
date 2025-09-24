@@ -12,26 +12,26 @@ from fastapi.responses import JSONResponse
 from app.api import router
 
 app = FastAPI(
-    title='Avocado AI API',
-    description='Mental health bot',
-    version='0.1',
-    docs_url='/',
+    title="Avocado AI API",
+    description="Mental health bot",
+    version="0.1",
+    docs_url="/",
 )
 
 app.include_router(router)
 
-'''app.add_middleware(
+"""app.add_middleware(
     CORSMiddleware,
     allow_origins=['*'],
     allow_credentials=True,
     allow_methods=['*'],
     allow_headers=['*'],
-)'''
+)"""
 
 if __name__ == "__main__":
-    print(os.getenv('ENV'))
-    load_dotenv('../../.env')
-    print('OPENAI_API_KEY: ', os.getenv('OPENAI_API_KEY'))
+    print(os.getenv("ENV"))
+    load_dotenv("../../.env")
+    print("OPENAI_API_KEY: ", os.getenv("OPENAI_API_KEY"))
     uvicorn.run("app.main:app", host="0.0.0.0", port=1235, reload=True)
 
 

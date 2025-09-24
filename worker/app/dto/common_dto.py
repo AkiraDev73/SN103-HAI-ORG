@@ -7,8 +7,8 @@ from pydantic import BaseModel
 
 
 class Sender(str, Enum):
-    USER = 'USER'
-    ASSISTANT = 'ASSISTANT'
+    USER = "USER"
+    ASSISTANT = "ASSISTANT"
 
 
 class Message(BaseModel):
@@ -26,14 +26,15 @@ class SenderInput(BaseModel):
 
     def to_dict(self) -> dict:
         return {
-            'sender': self.sender,
-            'text': self.text,
+            "sender": self.sender,
+            "text": self.text,
         }
 
 
 class DialogMessage(BaseModel):
     sender: str
     text: str
+
 
 class DialogRequest(BaseModel):
     request_id: int
@@ -75,11 +76,11 @@ class MessageInfo(BaseModel):
 
     def to_dict(self) -> dict:
         return {
-            'id': str(self.id),
-            'text': self.text,
-            'sender': self.sender,
-            'q_type': self.q_type,
-            'sent_at': str(self.sent_at),
+            "id": str(self.id),
+            "text": self.text,
+            "sender": self.sender,
+            "q_type": self.q_type,
+            "sent_at": str(self.sent_at),
         }
 
     def to_string(self) -> str:
@@ -125,9 +126,9 @@ class Question(BaseModel):
 
     def to_dict(self) -> dict:
         return {
-            'answer': self.answer,
-            'question': self.question,
-            'answer_extra': self.answer_extra
+            "answer": self.answer,
+            "question": self.question,
+            "answer_extra": self.answer_extra,
         }
 
     def to_str(self) -> str:

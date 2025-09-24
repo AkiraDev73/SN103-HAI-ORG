@@ -23,6 +23,7 @@ class MoodJournalService:
         # Ensure emotions is a Python list
         if isinstance(emotions, str):
             import json
+
             emotions = json.loads(emotions)  # Safely parse JSON string to Python list
 
         return f"""
@@ -37,9 +38,9 @@ class MoodJournalService:
         if mood_journal:
             formatted_prompt = self.format_mood_journal_for_prompt(mood_journal)
             return self.llm_response.process_data(
-                llm='gpt',
+                llm="gpt",
                 user_input=formatted_prompt,
-                system_prompt=sys_prompt_recommendation
+                system_prompt=sys_prompt_recommendation,
             )
         else:
             return None
@@ -48,31 +49,27 @@ class MoodJournalService:
         recommendation_message = MessageInfo(
             sender=Sender.ASSISTANT,
             text=recommendation_text,
-            timestamp=datetime.utcnow()
+            timestamp=datetime.utcnow(),
         )
         self.append_message(user_id, chat_id, recommendation_message)
 
     def append_message(self, user_id, chat_id, new_message: MessageInfo):
         # Update the DynamoDB table to append the message
         response = self.__table_chat.update_item(
-            Key={
-                'user_id': str(user_id),
-                'chat_id': str(chat_id)
-            },
+            Key={"user_id": str(user_id), "chat_id": str(chat_id)},
             UpdateExpression="SET #msg = list_append(if_not_exists(#msg, :empty_list), :new_msg)",
-            ExpressionAttributeNames={
-                '#msg': 'messages'
-            },
+            ExpressionAttributeNames={"#msg": "messages"},
             ExpressionAttributeValues={
-                ':empty_list': [],
-                ':new_msg': [new_message.to_dict()]
+                ":empty_list": [],
+                ":new_msg": [new_message.to_dict()],
             },
-            ReturnValues="UPDATED_NEW"
+            ReturnValues="UPDATED_NEW",
         )
         return response
 
 
-def get_mood_journal_service(postgres_dao=Depends(get_postgres_dao), llm_response=Depends(get_llm_response_service)):
+def get_mood_journal_service(
+    postgres_dao=Depends(get_postgres_dao),
+    llm_response=Depends(get_llm_response_service),
+):
     return MoodJournalService(postgres_dao, llm_response)
-
-

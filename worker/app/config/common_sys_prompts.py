@@ -150,7 +150,6 @@ RETURN only a short, concise summary and possible reason from the past solution 
 """
 
 
-
 sys_prompt_recommendation = """
 
 Y<system_prompt>
